@@ -1,0 +1,13 @@
+data/
+debugdata/
+archive/
+pilotdata/
+node_modules/
+venv/
+.idea/
+*~
+*.swo
+*.swp
+*.xlsx
+*xlsx\#
+Result
