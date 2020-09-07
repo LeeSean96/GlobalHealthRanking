@@ -1,25 +1,37 @@
 import string
 from datetime import date, datetime
+from typing import List
 
 from src.ClinicalTrialsTracker.model import clinical_trial_v1
 from src.ClinicalTrialsTracker.model.enum import category, Category
 from src.ClinicalTrialsTracker.model.enum import overall_status
 from src.ClinicalTrialsTracker.definitions import REPORTING_THRESHOLD, INCONSISTENCY_THRESHOLD
 
+clinical_trial_fieldnames: List[str] = [
+    'nct_id',
+    'url_link',
+    'lead_sponsor',
+    'overall_status',
+    'results_reported',
+    'is_overdue',
+    'completion_date',
+    'results_date',
+    'download_date',
+    'brief_title',
+    'category',
+]
 
 class ClinicalTrial:
     def __init__(self):
-        self.download_date = None
-        self.completion_date = None
         self.nct_id: string
         self.url_link: string
         self.lead_sponsor: string
         self.overall_status: overall_status.OverallStatus
         self.results_reported: bool
         self.is_overdue: bool
-        self.completion_date: date
-        self.results_date: date
-        self.download_date: date
+        self.completion_date: date = None
+        self.results_date: date = None
+        self.download_date: date = None
         self.brief_title: string
         self.category: category.Category
 
@@ -97,6 +109,21 @@ class ClinicalTrial:
             return Category.results_not_yet_due
 
         return Category.inconsistent_data
+
+    def to_dict(self) -> dict:
+        return {
+            'nct_id': self.nct_id,
+            'url_link': self.url_link,
+            'lead_sponsor': self.lead_sponsor,
+            'overall_status': self.overall_status.value,
+            'results_reported': self.results_reported,
+            'is_overdue': self.is_overdue,
+            'completion_date': None if self.completion_date is None else self.completion_date.strftime('%Y-%m-%d'),
+            'results_date': None if self.results_date is None else self.results_date.strftime('%Y-%m-%d'),
+            'download_date': None if self.download_date is None else self.download_date.strftime('%Y-%m-%d'),
+            'brief_title': self.brief_title,
+            'category': self.category.value,
+        }
 
 
 def try_parse_iso_date(date_string: string) -> datetime:
