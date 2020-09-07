@@ -16,7 +16,7 @@ csv_output = csv.writer(targetfile, delimiter=';')
 
 
 # the main parser-anlyser
-def parser(filename):
+def raw_data_to_clinical_trial_v1(filename):
 
     #setting up parser
     tree = ET.parse(filename)
@@ -108,7 +108,7 @@ for temp in os.listdir(data_path)[0:]:
         for filename in os.listdir(temp_path):
             filepath = os.path.join(temp_path, filename)
             print(filepath)
-            parser(filepath)
+            raw_data_to_clinical_trial_v1(filepath)
 
 targetfile.close()
 print('Done')
