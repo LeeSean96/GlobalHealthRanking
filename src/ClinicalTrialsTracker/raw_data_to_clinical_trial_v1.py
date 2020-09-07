@@ -5,10 +5,10 @@ import csv
 from datetime import *
 import warnings
 
-import definitions
+from src.ClinicalTrialsTracker.definitions import ROOT_DIR
 
 # pathworks
-my_path = definitions.ROOT_DIR
+my_path = ROOT_DIR
 target = os.path.join(my_path, 'Result.csv')
 data_path = os.path.join(my_path, 'data')
 targetfile = open(target, 'w+')
