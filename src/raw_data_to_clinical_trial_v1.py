@@ -5,9 +5,10 @@ import csv
 from datetime import *
 import warnings
 
+import definitions
 
 # pathworks
-my_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+my_path = definitions.ROOT_DIR
 target = os.path.join(my_path, 'Result.csv')
 data_path = os.path.join(my_path, 'data')
 targetfile = open(target, 'w+')
