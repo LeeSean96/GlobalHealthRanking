@@ -11,30 +11,11 @@ It is recommended to also get OpenRefine to aid in reconciliating the data.
 
 ### How To
 
-1. To use this tool, clone or fork this repository.
-
-2. Make a folder "data" in the directory where "parser.py" sits.
-
-3. Obtain your dataset from [ClinicalTrialsGov (Download all data)](https://clinicaltrials.gov/ct2/resources/download#DownloadAllData) and unzip it in the "Data" directory.
-
-4. Open up your console or IDLE and type "python3 parser.py" or "python parser.py"
-
-```
-user@Desktop:~/GlobalHealthRanking$ python3 parser.py
-```
-
-5. A CSV file will appear in the same directory as "parser.py" after an hour. 
-
-6. Filter and study the data as desired using OpenRefine or Excel. (Excel will be noticeably slower, we recommend using OpenRefine to further select and bin your data before processing it with Excel).
+WIP
 
 ## Built With
 
 * [Python3](https://www.python.org/download/releases/3.0/)
-
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 
 ## Authors
