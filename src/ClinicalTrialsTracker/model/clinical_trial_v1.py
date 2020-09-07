@@ -14,3 +14,6 @@ class ClinicalTrialV1:
         self.download_date: string
         self.brief_title: string
         self.population_type: string
+
+    def __init__(self, **entries):
+        self.__dict__.update(entries)

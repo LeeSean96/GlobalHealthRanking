@@ -10,4 +10,4 @@ class OverallStatus(Enum):
     suspended = 'Suspended'
     terminated = 'Terminated'
     withdrawn = 'Withdrawn'
-    unknown_status = 'Unknown Status'
+    unknown_status = 'Unknown status'
