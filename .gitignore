@@ -5,6 +5,7 @@ pilotdata/
 node_modules/
 venv/
 .idea/
+samples/
 *~
 *.swo
 *.swp
