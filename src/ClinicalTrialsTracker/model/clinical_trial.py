@@ -5,7 +5,8 @@ from typing import List
 from src.ClinicalTrialsTracker.model import clinical_trial_v1
 from src.ClinicalTrialsTracker.model.enum import category, Category
 from src.ClinicalTrialsTracker.model.enum import overall_status
-from src.ClinicalTrialsTracker.definitions import REPORTING_THRESHOLD, INCONSISTENCY_THRESHOLD
+from src.ClinicalTrialsTracker.definitions import REPORTING_THRESHOLD, INCONSISTENCY_THRESHOLD, \
+    DEFAULT_REPORTING_TIME_DELAY_PENALTY
 
 clinical_trial_fieldnames: List[str] = [
     'nct_id',
@@ -19,7 +20,9 @@ clinical_trial_fieldnames: List[str] = [
     'download_date',
     'brief_title',
     'category',
+    'time_delay',
 ]
+
 
 class ClinicalTrial:
     def __init__(self):
@@ -34,6 +37,7 @@ class ClinicalTrial:
         self.download_date: date = None
         self.brief_title: string
         self.category: category.Category
+        self.time_delay: int
 
     def __init__(self, v1: clinical_trial_v1.ClinicalTrialV1):
         self.nct_id: string = v1.nct_id
@@ -47,6 +51,7 @@ class ClinicalTrial:
         self.download_date: date = try_parse_iso_date(v1.download_date)
         self.brief_title: string = v1.brief_title
         self.category: category.Category = self.create_category()
+        self.time_delay: int = self.calculate_time_delay()
 
     @property
     def has_no_reporting_requirements(self) -> bool:
@@ -110,6 +115,15 @@ class ClinicalTrial:
 
         return Category.inconsistent_data
 
+    def calculate_time_delay(self) -> int:
+        if self.category != Category.results_reported:
+            return None
+
+        if self.results_date is None or self.completion_date is None:
+            return DEFAULT_REPORTING_TIME_DELAY_PENALTY
+
+        return (self.results_date - self.completion_date).days + REPORTING_THRESHOLD
+
     def to_dict(self) -> dict:
         return {
             'nct_id': self.nct_id,
@@ -123,6 +137,7 @@ class ClinicalTrial:
             'download_date': None if self.download_date is None else self.download_date.strftime('%Y-%m-%d'),
             'brief_title': self.brief_title,
             'category': self.category.value,
+            'time_delay': self.time_delay,
         }
 
 
@@ -155,5 +170,3 @@ def map_overall_status(status: string) -> overall_status.OverallStatus:
         return overall_status.OverallStatus.terminated
     else:
         raise Exception('Unknown status %s provided.' % status)
-
-
