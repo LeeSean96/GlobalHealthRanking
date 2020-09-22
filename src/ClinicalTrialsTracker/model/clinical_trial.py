@@ -99,24 +99,24 @@ class ClinicalTrial:
 
     def create_category(self) -> Category:
         if self.has_no_reporting_requirements:
-            return Category.no_reporting_requirements
+            return Category.no_reporting_requirement
 
-        if self.has_finished and self.results_reported:
-            return Category.results_reported
+        if self.has_finished and self.results_reported and self.has_exceeded_reporting_threshold:
+            return Category.due_and_reported
 
         if self.has_finished and not self.results_reported and self.has_exceeded_reporting_threshold:
-            return Category.overdue_for_reporting
+            return Category.due_but_not_reported
 
-        if self.has_finished and not self.results_reported and not self.has_exceeded_reporting_threshold:
-            return Category.results_not_yet_due
+        if self.has_finished and not self.has_exceeded_reporting_threshold:
+            return Category.completed_but_not_due
 
-        if self.is_ongoing and not self.results_reported and self.has_future_completion_date:
-            return Category.results_not_yet_due
+        if self.is_ongoing and self.has_future_completion_date:
+            return Category.ongoing
 
         return Category.inconsistent_data
 
     def calculate_time_delay(self) -> int:
-        if self.category != Category.results_reported:
+        if self.category != Category.due_and_reported:
             return None
 
         if self.results_date is None or self.completion_date is None:
